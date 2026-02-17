@@ -25,7 +25,7 @@ def totient_maximum(interval):
         z = i/y
         if z>m:
             m = z
-        # print(i)
+         print(i)
     return m
 
 print(totient_maximum(10000))
