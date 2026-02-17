@@ -1,34 +1,32 @@
 import time
 start_time = time.time()
 
-def find_gcf(num1, num2):
-    while num2 != 0:
-        remainder = num1 % num2
-        num1 = num2
-        num2 = remainder
-    return num1
-
-def is_relatively_prime(a, b):
-    if find_gcf(a, b) == 1:
-        return True
+def euler_totient(n):
+    """Calculate Euler's totient using prime factorization - O(sqrt(n))"""
+    result = n
+    p = 2
+    while p * p <= n:
+        if n % p == 0:
+            while n % p == 0:
+                n //= p
+            result -= result // p
+        p += 1
+    if n > 1:
+        result -= result // n
+    return result
 
 def totient_maximum(interval):
-    print("Calculating")
     m = 0
+    best_i = 0
     for i in range(2, interval+1):
-        x = 1
-        y = 0
-        while x != i:
-            if is_relatively_prime(i, x):
-                y+=1
-            x+=1
-        z = i/y
-        if z>m:
+        phi = euler_totient(i)
+        z = i / phi
+        if z > m:
             m = z
-         print(i)
-    return m
+            best_i = i
+    return best_i
 
-print(totient_maximum(10000))
+print(totient_maximum(1000))
 end_time = time.time()
 elapsed_time = end_time - start_time
 print(f"Program Run-Time: {elapsed_time:.6f} seconds")
